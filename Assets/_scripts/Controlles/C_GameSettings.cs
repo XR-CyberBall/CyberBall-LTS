@@ -4,8 +4,58 @@ using UnityEngine;
 using TMPro;
 using E_Settings;
 
-public class C_GameSettings:MonoBehaviour
+public class C_GameSettings : MonoBehaviour
 {
+
+   public C_Feedback Fbb;
+   public C_Feedback Vib;
+    public void create_new_profile()
+    {
+
+
+
+    }
+
+
+
+    public void prepare_profile()
+    {
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /// <summary>
@@ -17,6 +67,11 @@ public class C_GameSettings:MonoBehaviour
 
     public TMP_InputField _GameIteration;
     [Tooltip("This is the Drop Down menu of the Game iteration")]
+
+
+
+
+
     public TMP_Dropdown _Dropdown__GameIteration;
     /// <summary>
     /// Up update the preferences 
