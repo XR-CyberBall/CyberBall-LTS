@@ -9,49 +9,37 @@ public class C_GameSettings : MonoBehaviour
 
    public C_Feedback Fbb;
    public C_Feedback Vib;
-    public void create_new_profile()
+   public List<Player_options_handler> players;
+   private User_Profile User =new User_Profile();
+    M_Profile Model_Profile = new M_Profile();
+
+    public C_GameSettings addPlayer()
     {
+       foreach(Player_options_handler player in players)
+        {
+            User.Players.Add(player.GetPlayerChara("jhon"));
+        }
+        return this;
 
 
 
     }
 
+    public C_GameSettings addFbb() {
+
+        User.sliderValuesWrapper_FBB = Fbb.Get_Slider_Wraper();
+        User.sliderValuesWrapper_VIB = Vib.Get_Slider_Wraper();
+        return this;
+    }
+   
 
 
-    public void prepare_profile()
+    public void save_profile()
     {
-
+        Model_Profile.Save_profile(User);
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

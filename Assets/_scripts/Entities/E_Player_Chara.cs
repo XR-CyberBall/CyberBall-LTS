@@ -2,21 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[System.Serializable]
 public enum Gender
 {
     Male,
     Female,
     Other
 }
-
+[System.Serializable]
 public enum Skin
 {
     Light,
     Medium,
     Dark
 }
-
+[System.Serializable]
 public enum Race
 {
     Caucasian,
@@ -29,8 +29,6 @@ public enum Race
 [System.Serializable]
 public class E_Player_Chara
 {
-
-
     public string Name { get; set; }
     public Gender UserGender { get; set; }
     public Skin UserSkin { get; set; }

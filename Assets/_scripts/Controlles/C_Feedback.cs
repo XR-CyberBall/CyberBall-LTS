@@ -14,7 +14,29 @@ public class C_Feedback : MonoBehaviour
     {
         mGloves.SaveSliderValues(sliders, pref);
     }
+    public SliderValuesWrapper Get_Slider_Wraper()
+    {
 
+        List<SliderValue> sliderValuesList = new List<SliderValue>();
+
+        // Iterate through the SlideFeedback objects and save their values
+        foreach (SlideFeedback slideFeedback in sliders)
+        {
+            string fingerID = slideFeedback.Finger_ID.ToString();
+            float sliderValue = slideFeedback.slider.value;
+            Debug.Log(fingerID + ": " + sliderValue);
+
+            SliderValue sliderValueObj = new SliderValue();
+            sliderValueObj.fingerID = fingerID;
+            sliderValueObj.sliderValue = sliderValue;
+
+            sliderValuesList.Add(sliderValueObj);
+        }
+
+        SliderValuesWrapper sliderValuesWrapper = new SliderValuesWrapper();
+        sliderValuesWrapper.sliderValuesList = sliderValuesList;
+        return sliderValuesWrapper;
+    }
 
     public void LoadSliderValues_View(GLOVES_FEEDBACK_PREF pref)
     {

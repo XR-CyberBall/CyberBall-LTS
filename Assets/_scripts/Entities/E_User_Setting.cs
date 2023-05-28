@@ -5,14 +5,16 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class User_Setting
+public class User_Profile
 {
-    public List<E_Player_Chara> Players { get; set; }
-    public SliderValuesWrapper sliderValuesWrapper_FBB { get; set; }
-    public SliderValuesWrapper sliderValuesWrapper_VIB { get; set; }
+
+    public List<E_Player_Chara> Players;
+    public bool tes;
+    public SliderValuesWrapper sliderValuesWrapper_FBB;
+    public SliderValuesWrapper sliderValuesWrapper_VIB;
 
     // Default constructor
-    public User_Setting()
+    public User_Profile()
     {
         Players = new List<E_Player_Chara>();
         sliderValuesWrapper_FBB = new SliderValuesWrapper();

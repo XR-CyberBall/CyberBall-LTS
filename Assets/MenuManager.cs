@@ -24,6 +24,7 @@ public enum Menu_Animation
     public GameObject _menuPanel;
     public C_Feedback Feedback_fbb;
     public C_Feedback Feedback_vib;
+     
 
     /// <summary>
     /// Gamge setting that is responsible on saving the preferences 
@@ -55,8 +56,9 @@ public enum Menu_Animation
         {
             try
             {
+            PlayerPrefs.DeleteAll();
 
-                if (_menuPanel == null)
+            if (_menuPanel == null)
                 {
                     throw new UnityException("The panel is not defined");
 
@@ -119,9 +121,16 @@ public enum Menu_Animation
     /// </summary>
     public void Save_Nenu_Manager_Setting()
     {
+
+   
+       
         Settings.Update_Settings();
         Feedback_fbb.SaveSliderValues(GLOVES_FEEDBACK_PREF.FBB_FEEDBACK);
         Feedback_vib.SaveSliderValues(GLOVES_FEEDBACK_PREF.VIBRATION_FEEDBACK);
+
+        Settings.addFbb();
+        Settings.addPlayer();
+        Settings.save_profile();
 
     }
 
