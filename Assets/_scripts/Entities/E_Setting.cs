@@ -10,7 +10,12 @@ namespace E_Settings
     [System.Serializable]
     public class SliderValuesWrapper
     {
+        public SliderValuesWrapper()
+        {
+            sliderValuesList = new List<SliderValue>();
+        }
         public List<SliderValue> sliderValuesList;
+    
     }
 
     [System.Serializable]

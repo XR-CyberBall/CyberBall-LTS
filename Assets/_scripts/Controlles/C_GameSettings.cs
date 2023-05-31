@@ -7,15 +7,15 @@ using E_Settings;
 public class C_GameSettings : MonoBehaviour
 {
 
-   public C_Feedback Fbb;
-   public C_Feedback Vib;
-   public List<Player_options_handler> players;
-   private User_Profile User =new User_Profile();
+    public C_Feedback Fbb;
+    public C_Feedback Vib;
+    public List<Player_options_handler> players;
+    public User_Profile User ;
     M_Profile Model_Profile = new M_Profile();
 
     public C_GameSettings addPlayer()
     {
-       foreach(Player_options_handler player in players)
+        foreach (Player_options_handler player in players)
         {
             User.Players.Add(player.GetPlayerChara("jhon"));
         }
@@ -31,17 +31,57 @@ public class C_GameSettings : MonoBehaviour
         User.sliderValuesWrapper_VIB = Vib.Get_Slider_Wraper();
         return this;
     }
-   
 
 
-    public void save_profile()
+    public void loadProfile_FBB(User_Profile user)
     {
-        Model_Profile.Save_profile(User);
+
+
+        foreach (SlideFeedback slider in Fbb.sliders)
+        {
+            foreach (SliderValue slidervalue in user.sliderValuesWrapper_FBB.sliderValuesList)
+            {
+
+
+                if (slider.Finger_ID.ToString() == slidervalue.fingerID)
+                {
+
+                    slider.UpdateTextValue(slidervalue.sliderValue);
+                }
+            }
+        }
+
+        foreach (SlideFeedback slider in Vib.sliders)
+        {
+            foreach (SliderValue slidervalue in user.sliderValuesWrapper_VIB.sliderValuesList)
+            {
+
+
+                if (slider.Finger_ID.ToString() == slidervalue.fingerID)
+                {
+
+                    slider.UpdateTextValue(slidervalue.sliderValue);
+                }
+            }
+        }
+    }
+    public void save_profile(User_Profile profile)
+    {
+        Model_Profile.Save_profile(profile);
 
 
     }
 
+    public M_Profile.Profiles Get_profiles()
+    {
 
+
+        M_Profile.Profiles profiles = Model_Profile.Load_profile();
+        return profiles;
+
+    }
+
+   
 
 
 

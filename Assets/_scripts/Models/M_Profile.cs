@@ -6,36 +6,36 @@ using System;
 public class M_Profile
 {
 
-  [System.Serializable]
-  public  class Profiles
+    [System.Serializable]
+    public class Profiles
     {
 
 
-     public SerializableDictionary<string,User_Profile> List_of_profile =new SerializableDictionary<string, User_Profile>();
+        public SerializableDictionary<string, User_Profile> List_of_profile = new SerializableDictionary<string, User_Profile>();
 
     }
-    private string Generate_UUID()
-    {
 
-        Guid uuid = Guid.NewGuid();
-        string uuidString = uuid.ToString();
-        return uuidString;
-
-
-    }
     public Profiles List_of_current_profiles(User_Profile profile)
     {
 
-        if (PlayerPrefs.HasKey("profiles")) {
+        if (PlayerPrefs.HasKey("profiles"))
+        {
 
-           string Profiles= PlayerPrefs.GetString("profiles");
+            string Profiles = PlayerPrefs.GetString("profiles");
 
             Profiles profile_class = JsonUtility.FromJson<Profiles>(Profiles);
-        
-            string uiid = Generate_UUID();
-            Debug.Log(uiid);
-            profile_class.List_of_profile.Add(uiid, profile);
-            string el = "";
+
+            if (profile_class.List_of_profile.ContainsKey(profile.UUID))
+            {
+                profile_class.List_of_profile[profile.UUID] = profile;
+
+            }
+            else
+            {
+                profile_class.List_of_profile.Add(profile.UUID, profile);
+
+
+            }
             return profile_class;
 
 
@@ -47,7 +47,7 @@ public class M_Profile
             Profiles List_of_profiles = new Profiles();
 
 
-            List_of_profiles.List_of_profile.Add(Generate_UUID(), profile);
+            List_of_profiles.List_of_profile.Add(profile.UUID, profile);
 
             return List_of_profiles;
         }
@@ -59,21 +59,22 @@ public class M_Profile
 
     public bool Save_profile(User_Profile profile)
     {
-              Profiles current_profiles= List_of_current_profiles(profile);
+        Profiles current_profiles = List_of_current_profiles(profile);
 
-              string List_of_profiles = JsonUtility.ToJson(current_profiles);
-              Debug.Log("profile: "+List_of_profiles);
-              
-               PlayerPrefs.SetString("profiles", List_of_profiles);
-                        
+        string List_of_profiles = JsonUtility.ToJson(current_profiles);
+        Debug.Log("profile: " + List_of_profiles);
 
+        PlayerPrefs.SetString("profiles", List_of_profiles);
 
 
-               return true ;
-     
-}
-    
-    public Profiles Load_profile() {
+
+
+        return true;
+
+    }
+
+    public Profiles Load_profile()
+    {
 
         if (PlayerPrefs.HasKey("profiles"))
         {
@@ -95,6 +96,17 @@ public class M_Profile
         else return null;
     }
 
-    
- 
+    public User_Profile Get_profile_By_id(string id)
+    {
+
+        Profiles profiles = Load_profile();
+
+        return profiles.List_of_profile[id];
+
+
+
+
+
+    }
+
 }

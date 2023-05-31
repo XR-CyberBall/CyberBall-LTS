@@ -38,10 +38,36 @@ public class C_Feedback : MonoBehaviour
         return sliderValuesWrapper;
     }
 
-    public void LoadSliderValues_View(GLOVES_FEEDBACK_PREF pref)
+    public void LoadSliderValues_View(GLOVES_FEEDBACK_PREF pref,User_Profile user=null)
     {
-        Dictionary<string, float> sliderValuesDict = mGloves.GetSlidersvalue(pref);
-  
+        Dictionary<string, float> sliderValuesDict ;
+
+        if (user != null)
+        {
+            sliderValuesDict = new Dictionary<string, float>();
+
+            if (pref.Equals(GLOVES_FEEDBACK_PREF.FBB_FEEDBACK))
+            {
+
+                foreach (SliderValue sliderValue in user.sliderValuesWrapper_FBB.sliderValuesList)
+                {
+                    sliderValuesDict.Add(sliderValue.fingerID, sliderValue.sliderValue);
+                }
+            }
+            else if(pref.Equals(GLOVES_FEEDBACK_PREF.VIBRATION_FEEDBACK))  {
+
+                foreach (SliderValue sliderValue in user.sliderValuesWrapper_VIB.sliderValuesList)
+                {
+                    sliderValuesDict.Add(sliderValue.fingerID, sliderValue.sliderValue);
+                }
+            }
+              
+
+        }
+        else
+        {
+            sliderValuesDict = mGloves.GetSlidersvalue(pref);
+        }
 
         if (sliderValuesDict!=null)
         {

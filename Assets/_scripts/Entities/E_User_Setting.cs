@@ -1,4 +1,5 @@
 using E_Settings;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,14 +9,24 @@ using UnityEngine;
 public class User_Profile
 {
 
+    private string Generate_UUID()
+    {
+
+        Guid uuid = Guid.NewGuid();
+        string uuidString = uuid.ToString().Substring(0, 6); ;
+        return uuidString;
+
+
+    }
+    public string UUID;
     public List<E_Player_Chara> Players;
-    public bool tes;
     public SliderValuesWrapper sliderValuesWrapper_FBB;
     public SliderValuesWrapper sliderValuesWrapper_VIB;
 
     // Default constructor
     public User_Profile()
     {
+        UUID = Generate_UUID();
         Players = new List<E_Player_Chara>();
         sliderValuesWrapper_FBB = new SliderValuesWrapper();
         sliderValuesWrapper_VIB = new SliderValuesWrapper();

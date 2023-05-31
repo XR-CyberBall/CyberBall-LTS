@@ -29,10 +29,10 @@ public enum Race
 [System.Serializable]
 public class E_Player_Chara
 {
-    public string Name { get; set; }
-    public Gender UserGender { get; set; }
-    public Skin UserSkin { get; set; }
-    public Race UserRace { get; set; }
+    public string Name;
+    public Gender UserGender;
+    public Skin UserSkin;
+    public Race UserRace;
 
     // Constructor
     public E_Player_Chara(string name, Gender gender, Skin skin, Race race)
