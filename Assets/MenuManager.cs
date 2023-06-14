@@ -26,8 +26,9 @@ public enum Menu_Animation
     public C_Feedback Feedback_fbb;
     public C_Feedback Feedback_vib;
     private User_Profile Current_user;
-
+    public SceneTransitionManager SCTrans;
     public TMP_Text _username;
+    public Player_options_handler[] Players_charac;
 
     /// <summary>
     /// Gamge setting that is responsible on saving the preferences 
@@ -89,6 +90,10 @@ public enum Menu_Animation
         {
 
         }
+    public void MoveTO_GameScene(int sceneIndex)
+    {
+        SCTrans.GoToScene(sceneIndex);
+    }
         public void Show_Hide_MenuPanel(bool show = false)
         {
             _menuPanel.SetActive(show);
@@ -105,7 +110,10 @@ public enum Menu_Animation
         animator.SetBool("Hide", true);
        
     }
-
+    public void Load_Players_Charatheres(Player_options_handler[] players)
+    {
+     
+    }
     /// <summary>
     /// Load the  view with saved preferences 
     /// </summary>
@@ -115,7 +123,6 @@ public enum Menu_Animation
         Feedback_fbb.LoadSliderValues_View(GLOVES_FEEDBACK_PREF.FBB_FEEDBACK, Current_user);
         Feedback_vib.LoadSliderValues_View(GLOVES_FEEDBACK_PREF.VIBRATION_FEEDBACK, Current_user);
         Debug.Log("Settings are updated");
-
     }
 
     /// <summary>
@@ -124,7 +131,6 @@ public enum Menu_Animation
     public void Save_Nenu_Manager_Setting()
     {
 
-        Load_profiles();
 
 
         Settings.Update_Settings();
@@ -202,8 +208,6 @@ public enum Menu_Animation
     {
         M_Profile.Profiles profiles = Settings.Get_profiles();
         this.profiles = profiles;
-    
-
 
     }
     public void load_user(String userID) {
@@ -214,6 +218,8 @@ public enum Menu_Animation
         Debug.Log("load_ user");
         _username.text = Current_user.UUID;
         Load_MenuManager_Settings();
+        Settings.Load_player();
+
 
 
     }

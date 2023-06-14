@@ -24,10 +24,7 @@ public class Button_Nav_Panel :MonoBehaviour
 
     }
 
-    public void Start_The_Game()
-    {
-        _Manager.Change_The_Scene(Enums.Scenes_ID.GameScene);
-    }
+  
 
 
 }

@@ -13,11 +13,30 @@ public class C_GameSettings : MonoBehaviour
     public User_Profile User ;
     M_Profile Model_Profile = new M_Profile();
 
+    public  void Load_player() {
+        int pos = 0;
+        User.Players.ForEach(ele => {
+
+            players[pos].LoadPlayerChara(ele);
+            pos += 1;
+        });
+    }
     public C_GameSettings addPlayer()
     {
+        User.Players.Clear();
+        string name_of_player;
         foreach (Player_options_handler player in players)
         {
-            User.Players.Add(player.GetPlayerChara("jhon"));
+            if (player.selectedGender == Gender.Female)
+            {
+                name_of_player = "Alice";
+
+            }
+            else
+            {
+                name_of_player = "Jhon";
+            }
+            User.Players.Add(player.GetPlayerChara(name_of_player));
         }
         return this;
 

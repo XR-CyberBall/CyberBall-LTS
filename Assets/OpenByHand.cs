@@ -8,6 +8,7 @@ public class OpenByHand : MonoBehaviour
 {
     public TMP_Dropdown dropdown;
     public Button[] Buttons;
+    public Button StartButton;
     void Start()
     {
         
@@ -54,6 +55,12 @@ public class OpenByHand : MonoBehaviour
             Buttons[1].onClick.Invoke();
 
 
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+
+            Debug.Log("From line 62");
+            StartButton.onClick.Invoke();
         }
     }
 }
