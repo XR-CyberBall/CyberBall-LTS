@@ -2,114 +2,71 @@
 
 public class BallController : MonoBehaviour
 {
-    private float _torqueForce = 2f;
-    private float _throwAngle = 30f;
-    private Transform _holdingPoint;
-    
-    private Rigidbody _rigidbody;
-    private GameManager _gameManager;
-    private float currentGravity;
-    
-    private float timer = 0f;
-    private float movementDuration = 0.5f;
-
-    private bool _isMoving;
-    private Vector3 initialPosition;
-
-    private void Start()
+    private bool isThrowing = false;
+    public Transform target;
+    public float throwDuration = 1.5f;
+    public Rigidbody rb;
+    public float throwHeight = 1.2f;
+    private float throwTimer = 0f;
+    public float smoothFactor = 9f;
+    private void FixedUpdate()
     {
-        _gameManager = GameManager.Instance;
-        _rigidbody = GetComponent<Rigidbody>();
-        _rigidbody.useGravity = false;
-        currentGravity = Physics.gravity.magnitude;
-    }
-
-    private void Update()
-    {
-        MoveTarget();
-
-        // Check to make sure that throwing is only possible when someone is holding the ball
-        if(_rigidbody.useGravity == false) {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                initialPosition = _gameManager.GetInitialTargetPosition();
-                _rigidbody.constraints = RigidbodyConstraints.None;
-                Throw(_gameManager.GetLeftTarget());
-            }
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                initialPosition = _gameManager.GetInitialTargetPosition();
-                _rigidbody.constraints = RigidbodyConstraints.None;
-                Throw(_gameManager.GetRightTarget());
-            }
-        }
-    }
-
-    private void MoveTarget()
-    {
-        if (_isMoving)
+        if (isThrowing)
         {
-            timer += Time.deltaTime;
+            throwTimer += Time.fixedDeltaTime;
 
-            // Move the object towards the target object
-            _holdingPoint.position = transform.position;
-
-            if (timer >= movementDuration)
+            if (throwTimer >= throwDuration)
             {
-                // Return the object to its initial position
-                _holdingPoint.position = initialPosition;
-
-                // Reset variables
-                _isMoving = false;
-                timer = 0f;
+                isThrowing = false;
+                ResetComponents();
             }
+
+            SimulateThrow();
         }
     }
-    
-    private void OnTriggerEnter(Collider other)
+
+    private void OnCollisionEnter(Collision collision)
     {
-        _holdingPoint = other.transform;
-        transform.position = _holdingPoint.position;
-        _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-        _rigidbody.useGravity = false;
-        
-        transform.SetParent(_holdingPoint.parent);
-    }
-    
-    private void Throw(Transform target)
-    {
-        Vector3 p = target.position;
-
-        // Selected angle in radians
-        float angle = _throwAngle * Mathf.Deg2Rad;
-
-        // Positions of this object and the target on the same plane
-        Vector3 planarTarget = new Vector3(p.x, 0, p.z);
-        Vector3 planarPostion = new Vector3(transform.position.x, 0, transform.position.z);
-        // Debug.Log("X: " + transform.position.x + " Y: " + transform.position.y + " Z: " + transform.position.z);
-
-        // Planar distance between objects
-        float distance = Vector3.Distance(planarTarget, planarPostion);
-        // Distance along the y axis between objects
-        float yOffset = transform.position.y - p.y;
-
-        float initialVelocity = (1 / Mathf.Cos(angle)) * Mathf.Sqrt((0.5f * currentGravity * Mathf.Pow(distance, 2)) / (distance * Mathf.Tan(angle) + yOffset));
-
-        Vector3 velocity = new Vector3(0, initialVelocity * Mathf.Sin(angle), initialVelocity * Mathf.Cos(angle));
-
-        // Rotate our velocity to match the direction between the two objects
-        float angleBetweenObjects = Vector3.Angle(Vector3.forward, planarTarget - planarPostion) * (p.x > transform.position.x ? 1 : -1);
-        Vector3 finalVelocity = Quaternion.AngleAxis(angleBetweenObjects, Vector3.up) * velocity;
-
-        // Fire!
-        _rigidbody.angularVelocity = Vector3.zero;
-        _rigidbody.velocity = finalVelocity;
-        _rigidbody.AddTorque(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * _torqueForce, ForceMode.Impulse);
-        _rigidbody.useGravity = true;
-
-        // Alternative way:
-        // rigid.AddForce(finalVelocity * rigid.mass, ForceMode.Impulse);
-        _isMoving = true;
+        if (isThrowing)
+        {
+            isThrowing = false;
+            rb.isKinematic = false;
+            ResetComponents();
+        }
     }
 
+    public void ThrowToTarget(Transform throwTarget)
+    {
+        target = throwTarget;
+        isThrowing = true;
+        rb.isKinematic = true;
+        throwTimer = 0f;
+    }
+
+    private void SimulateThrow()
+    {
+        float normalizedTime = throwTimer / throwDuration;
+
+        Vector3 throwPoint = CalculateThrowPoint(transform.position, target.position, normalizedTime);
+        Vector3 targetPosition = Vector3.Lerp(transform.position, throwPoint, Time.deltaTime * smoothFactor);
+        rb.MovePosition(targetPosition);
+    }
+
+    private Vector3 CalculateThrowPoint(Vector3 startPoint, Vector3 targetPoint, float t)
+    {
+        Vector3 controlPoint = startPoint + (targetPoint - startPoint) * 0.5f;
+        controlPoint.y += throwHeight; 
+
+        Vector3 throwPoint = Mathf.Pow(1 - t, 2) * startPoint + 2 * (1 - t) * t * controlPoint + Mathf.Pow(t, 2) * targetPoint;
+
+        return throwPoint;
+    }
+
+    private void ResetComponents()
+    {
+        throwTimer = 0f;
+        rb.useGravity = true;
+    }
+
+  
 }

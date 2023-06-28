@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class Enums
 {
-  
+    public enum PLAYER_INDEX
+    {
+        LEFT,
+        RIGHT,
+        ME
+       
+    }
     public enum PrefKeys
     {
         ITERATION

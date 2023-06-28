@@ -15,10 +15,18 @@ public class C_GameSettings : MonoBehaviour
 
     public  void Load_player() {
         int pos = 0;
+
+       
+        
         User.Players.ForEach(ele => {
 
-            players[pos].LoadPlayerChara(ele);
-            pos += 1;
+            if (pos < players.Count)
+            {
+                players[pos].LoadPlayerChara(ele);
+                pos += 1;
+            }
+
+            
         });
     }
     public C_GameSettings addPlayer()

@@ -9,6 +9,7 @@ public class OpenByHand : MonoBehaviour
     public TMP_Dropdown dropdown;
     public Button[] Buttons;
     public Button StartButton;
+    public Button move_to_next_scene;
     void Start()
     {
         
@@ -17,6 +18,11 @@ public class OpenByHand : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+
+
+        }
         if (Input.GetKeyDown(KeyCode.D)) {
              
 

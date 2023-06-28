@@ -29,7 +29,7 @@ public enum Menu_Animation
     public SceneTransitionManager SCTrans;
     public TMP_Text _username;
     public Player_options_handler[] Players_charac;
-
+    public Datamanager datamanager;
     /// <summary>
     /// Gamge setting that is responsible on saving the preferences 
     /// </summary>
@@ -92,6 +92,7 @@ public enum Menu_Animation
         }
     public void MoveTO_GameScene(int sceneIndex)
     {
+        Datamanager.user = Current_user;
         SCTrans.GoToScene(sceneIndex);
     }
         public void Show_Hide_MenuPanel(bool show = false)
