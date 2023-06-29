@@ -14,7 +14,7 @@ public class OpenByHand : MonoBehaviour
     {
         
     }
-
+    public MenuManager menuManager;
     // Update is called once per frame
     void Update()
     {
@@ -64,7 +64,10 @@ public class OpenByHand : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-
+            menuManager.Load_profiles();
+            Debug.Log(menuManager.profiles);
+            menuManager.load_user("a9eaf2");
+           
             Debug.Log("From line 62");
             StartButton.onClick.Invoke();
         }

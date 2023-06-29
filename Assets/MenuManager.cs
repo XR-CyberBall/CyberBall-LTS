@@ -25,7 +25,7 @@ public enum Menu_Animation
     public GameObject _menuPanel;
     public C_Feedback Feedback_fbb;
     public C_Feedback Feedback_vib;
-    private User_Profile Current_user;
+    public User_Profile Current_user;
     public SceneTransitionManager SCTrans;
     public TMP_Text _username;
     public Player_options_handler[] Players_charac;
